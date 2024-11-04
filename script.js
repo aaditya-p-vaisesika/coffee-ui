@@ -16,8 +16,9 @@ const chartsMenuItem = document.querySelector('.menu li:first-child');
 let barChart, pieChart, lineChart;
 function refreshPowerBiIframe() {
     const iframe = document.getElementById('powerbi-iframe');
-    iframe.contentWindow.location.reload();
+    iframe.src = iframe.src;
   }
+
 // Show charts section
 chartsMenuItem.addEventListener('click', function () {
     chartsSection.style.display = 'flex';
@@ -29,27 +30,9 @@ chartsMenuItem.addEventListener('click', function () {
 powerBiMenuItem.addEventListener('click', function () {
     chartsSection.style.display = 'none';
     powerBiSection.style.display = 'block';
-    document.querySelector('.main-content').style.display = 'none'; // Add this line
-
-    refreshPowerBiIframe();
-  });
-
-  powerBiMenuItem.addEventListener('click', function () {
-    chartsSection.style.display = 'none';
-    powerBiSection.style.display = 'block';
     document.querySelector('.main-content').style.display = 'none';
-    
-    const iframe = document.getElementById('powerbi-iframe');
-    const iframeParent = iframe.parentNode;
-    iframeParent.removeChild(iframe);
-    
-    const newIframe = document.createElement('iframe');
-    newIframe.id = 'powerbi-iframe';
-    newIframe.src = 'https://app.powerbi.com/reportEmbed?reportId=f0803a0a-439c-43c2-bbcf-9947a8dfc1c4&appId=ad57e3dc-31c1-478e-973c-d529124afe48&autoAuth=true&ctid=a8e0d09f-8766-41ce-acb7-1b36837c31d7';
-    newIframe.frameBorder = '0';
-    newIframe.allowFullScreen = 'true';
-    iframeParent.appendChild(newIframe);
-  });
+    // refreshPowerBiIframe();
+});
    
 
     let isRecording = false;
@@ -125,11 +108,12 @@ powerBiMenuItem.addEventListener('click', function () {
     document.getElementById('spinner-overlay').style.display = 'none';
     document.getElementById('submitBtn').disabled = false;
         renderCharts(apiResponse.data,apiResponse.type);
+        refreshPowerBiIframe();
         }
     });
 
     function callAPI(recordedText) {
-       const apiUrl="http://172.30.90.196:8000/chartData";
+       const apiUrl="http://172.30.85.37:8000/chartData";
         return fetch(apiUrl, {
             method: 'POST',
             headers: {
